@@ -1,0 +1,21 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: api-rider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        extension-configs[0]:
+          data-id: redis.yaml
+          refresh: true
+  redis:
+    host: 192.168.230.136
+    port: 6379
+    database: 0

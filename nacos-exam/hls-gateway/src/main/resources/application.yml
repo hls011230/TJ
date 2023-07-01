@@ -1,0 +1,42 @@
+server:
+  port: 13001
+spring:
+  application:
+    name: hls-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: hls-api-user-route
+          uri: lb://api-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=2
+        - id: hls-api-rider-route
+          uri:  lb://api-rider
+          predicates:
+            - Path=/api/rider/**
+          filters:
+            - StripPrefix=2  #去除前缀，否则404
+      enabled: true
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://127.0.0.1:3000"
+              - "http://127.0.0.1:3001"
+            allowedMethods:
+              - "GET"
+              - "POST"
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 360000
+
+
